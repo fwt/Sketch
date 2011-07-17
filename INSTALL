@@ -1,0 +1,28 @@
+
+------------------
+   INSTALLATION
+------------------
+
+In order to install Sketch you need eyeOS version 2.0 or
+higher. You can download it at http://www.eyeos.org/.
+
+1. Copy the contents of the "extern" folder into the
+   "extern" subfolder of your eyeOS main folder. This
+   folder contains the icons used by Sketch. Change the
+   file permissions, so that your webserver can read these
+   files.
+
+2. Go to the "apps" subfolder of your eyeOS main folder and
+   create a new folder called "sketch". Copy the contents
+   of the "src" folder into the newly created "sketch"
+   folder. Change the file permissions, so that your
+   webserver can read these files.
+
+3. Make sure your eyeOS server has ImageMagick installed.
+   Otherwise your can get it from
+   http://www.imagemagick.org/.
+
+4. Launch eyeOS in your favourite SVG 1.1 compatible
+   browser and start Sketch from the "Applications" menu.
+   Happy sketching!
+

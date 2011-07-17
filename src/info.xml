@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<meta>
+  <entry key="eyeos.application.name">Sketch</entry>
+  <entry key="eyeos.application.author">Florian Wohlfart</entry>
+  <entry key="eyeos.application.version">0.2</entry>
+  <entry key="eyeos.application.description">A simple collaborative vector graphics editor</entry>
+  <entry key="eyeos.application.license">GPL</entry>
+  <entry key="eyeos.application.category">Office</entry>
+  <entry key="eyeos.application.iconUrl">sys:///extern/images/sketch/sketch-32.png</entry>
+  <entry key="eyeos.application.taskBarIconUrl">sys:///extern/images/eyepaint/sketch-16.png</entry>
+  <entry key="eyeos.application.systemParameters" type="array">
+  	<entry key="listable">true</entry>
+  	<entry key="owner">root</entry>
+  	<entry key="group">users</entry>
+  	<entry key="permissions">---x--x--x</entry>
+  	<entry key="anonymous">false</entry>
+  	<entry key="suid">false</entry>
+  </entry>
+</meta>

@@ -1,0 +1,16 @@
+
+----------------
+   TODO
+----------------
+
+ - apply undo/redo on object moving
+ - start collaboration only when the same document is loaded
+ - undo/redo for actions of other collaborative users
+ - selecting and deleting objects
+ - rotating and resizing objects
+ - set and show image borders
+ - improve color selection dialog
+ - showing and editing object attributes
+ - show other collaborative users online
+ - add library with predefined objects
+

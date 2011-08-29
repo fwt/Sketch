@@ -1,7 +1,7 @@
 
-----------------
-   Sketch 0.2
-----------------
+
+Sketch 0.2
+==========
 
 A simple collaborative vector graphics editor for eyeOS 2.x
 
@@ -17,20 +17,20 @@ PRODUCTION USE. PLEASE USE AT YOUR OWN RISK.
 
 FEATURES
 --------
- - 5 Tools (Pen, Line, Rectangle, Ellipse, Text)
- - Open and save SVG files
- - Export to PNG and PDF
- - infinite undo and redo
- - Moving shapes on the canvas
- - Real-time collaboration with other eyeOS users
+* 5 Tools (Pen, Line, Rectangle, Ellipse, Text)
+* Open and save SVG files
+* Export to PNG and PDF
+* infinite undo and redo
+* Moving shapes on the canvas
+* Real-time collaboration with other eyeOS users
 
 
 SYSTEM REQUIREMENTS
 -------------------
 
- - eyeOS 2.0 or greater
- - ImageMagick (for image export to PNG or PDF)
- - SVG 1.1 compatible browser
+* eyeOS 2.0 or greater
+* ImageMagick (for image export to PNG or PDF)
+* SVG 1.1 compatible browser
 
 
 INSTALLATION

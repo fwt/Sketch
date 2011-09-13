@@ -10,6 +10,7 @@
 
    Authors:
      * Marc Puts (marcputs)
+     * Florian Wohlfart
 
 ************************************************************************ */
 
@@ -81,13 +82,38 @@ qx.Class.define("svg.path.Path",
     __applyPathData: function(value, old) {
       if (null === value) {
         this.removeAttribute("d");
+        this.setBorderX(null);
+        this.setBorderY(null);
+        this.setBorderWidth(null);
+        this.setBorderHeight(null);
       }
       else if (value instanceof svg.path.PathData) {
         this.setAttribute("d", value.toString());
         value.addListener("change", this.__pdataChangeListener, this);
+        
+        // init object border
+        /*if (this.getBorderX() == null)
+          this.setBorderX(this.getPenX());
+        if (this.getBorderY() == null)
+          this.setBorderY(this.getPenY());
+        if (this.getBorderWidth() == null)
+          this.setBorderWidth(0);
+        if (this.getBorderHeight == null)
+          this.setBorderHeight(0);
+        
+        if (this.getPenX() < this.getBorderX())
+          this.setBorderX(this.getPenX());
+        if (this.getPenY() < this.getBorderY())
+          this.setBorderY(this.getPenY());
+        
+        if (this.getBorderX() + this.getBorderWidth() < this.getPenX())
+          this.setBorderWidth(this.getPenX() - this.getBorderX());
+        if (this.getBorderY() + this.getBorderHeight() < this.getPenY())
+          this.setBorderHeight(this.getPenY() - this.getBorderY());*/
       }
       else {
         this.setAttribute("d", value);
+        // TODO: update object border
       }
 
       if (old instanceof svg.path.PathData) {
@@ -112,6 +138,11 @@ qx.Class.define("svg.path.Path",
      */
     __pdataChangeListener: function(ev) {
       this.__applyPathData(ev.getData(), ev.getOldData());
+    },
+    
+    //apply border changes
+    applyBorderChange: function() {
+	  // TODO
     }
 
   }

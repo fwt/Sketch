@@ -10,6 +10,7 @@
 
    Authors:
      * Marc Puts (marcputs)
+     * Florian Wohlfart
 
 ************************************************************************ */
 
@@ -111,7 +112,6 @@ qx.Class.define("svg.shape.Ellipse",
       group : ["radiusX", "radiusY"],
       mode : "shorthand"
     }
-    
   },
   
   
@@ -122,8 +122,10 @@ qx.Class.define("svg.shape.Ellipse",
     __applyCx: function(value, old) {
       if (null == value) {
         this.removeAttribute("cx");
+        this.setBorderX(null);
       } else {
         this.setAttribute("cx", value);
+        this.setBorderX(value - this.getRadiusX());
       }
     },
     
@@ -131,8 +133,10 @@ qx.Class.define("svg.shape.Ellipse",
     __applyCy: function(value, old) {
       if (null == value) {
         this.removeAttribute("cy");
+        this.setBorderY(null);
       } else {
         this.setAttribute("cy", value);
+        this.setBorderY(value - this.getRadiusY());
       }
     },
 
@@ -140,8 +144,12 @@ qx.Class.define("svg.shape.Ellipse",
     __applyRadiusX: function(value, old) {
       if (null == value) {
         this.removeAttribute("rx");
+        this.setBorderX(null);
+        this.setBorderWidth(null);
       } else {
         this.setAttribute("rx", value);
+        this.setBorderX(this.getCx() - value);
+        this.setBorderWidth(2 * value);
       }
     },
 
@@ -149,10 +157,27 @@ qx.Class.define("svg.shape.Ellipse",
     __applyRadiusY: function(value, old) {
       if (null == value) {
         this.removeAttribute("ry");
+        this.setBorderY(null);
+        this.setBorderHeight(null);
       } else {
         this.setAttribute("ry", value);
+        this.setBorderY(this.getCy() - value);
+        this.setBorderHeight(2 * value);
       }
+    },
+    
+    //apply border changes
+    applyBorderChange: function() {
+	  // cache values
+	  var borderX = this.getBorderX();
+	  var borderY = this.getBorderY();
+	  var borderWidth = this.getBorderWidth();
+	  var borderHeight = this.getBorderHeight();
+	  
+	  this.setRadiusX(borderWidth / 2);
+	  this.setRadiusY(borderHeight / 2);
+	  this.setCx(borderX + this.getRadiusX());
+	  this.setCy(borderY + this.getRadiusY());
     }
-
   }
 });

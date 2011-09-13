@@ -16,7 +16,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
+/**
+ * find and create DOM objects
+ */
 qx.Class.define('eyeos.sketch.ImportExport', {
   
   statics: {
@@ -30,7 +32,9 @@ qx.Class.define('eyeos.sketch.ImportExport', {
 	  text :		"svg.text.Text"
     },
 	
-	
+	/**
+	 * searches and returns the object with the given ID
+	 */
 	getObjectById: function(svgnode, id) {
 	  if (! svgnode.hasChildren())
 	    return null;
@@ -48,6 +52,10 @@ qx.Class.define('eyeos.sketch.ImportExport', {
 	  return null;
     },
     
+    
+    /**
+     * creates an object tree from an XML file
+     */
     createObjectsFromXML: function(xmlstring) {
 	  var parser = new DOMParser();
 	  var doc = parser.parseFromString(xmlstring, "text/xml");

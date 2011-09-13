@@ -50,12 +50,12 @@ qx.Class.define('eyeos.sketch.LeftbarItems', {
 				id: 'Line',
 				image: 'draw-line.png',
 				cmd: 'changeBrush'
-			}, {
+			}, /*{
 				name: tr('Polyline'),
 				id: 'Polyline',
 				image: 'draw-polyline.png',
 				cmd: 'changeBrush'
-			}, {
+			},*/ {
 				name: tr('Rectangle'),
 				id: 'Rectangle',
 				image: 'draw-rectangle.png',

@@ -10,6 +10,7 @@
 
    Authors:
      * Marc Puts (marcputs)
+     * Florian Wohlfart
 
 ************************************************************************ */
 
@@ -147,8 +148,10 @@ qx.Class.define("svg.shape.Rect",
     __applyX: function(value, old) {
       if (null == value) {
         this.removeAttribute("x");
+        this.setBorderX(null);
       } else {
         this.setAttribute("x", value);
+        this.setBorderX(value);
       }
     },
   
@@ -156,8 +159,10 @@ qx.Class.define("svg.shape.Rect",
     __applyY: function(value, old) {
       if (null == value) {
         this.removeAttribute("y");
+        this.setBorderY(null);
       } else {
         this.setAttribute("y", value);
+        this.setBorderY(value);
       }
     },
   
@@ -165,8 +170,10 @@ qx.Class.define("svg.shape.Rect",
     __applyWidth: function(value, old) {
       if (null == value) {
         this.removeAttribute("width");
+        this.setBorderWidth(null);
       } else {
         this.setAttribute("width", value);
+        this.setBorderWidth(value);
       }
     },
   
@@ -174,8 +181,10 @@ qx.Class.define("svg.shape.Rect",
     __applyHeight: function(value, old) {
       if (null == value) {
         this.removeAttribute("height");
+        this.setBorderHeight(value);
       } else {
         this.setAttribute("height", value);
+        this.setBorderHeight(value);
       }
     },
   
@@ -195,6 +204,14 @@ qx.Class.define("svg.shape.Rect",
       } else {
         this.setAttribute("ry", value);
       }
+    },
+    
+    //apply border changes
+    applyBorderChange: function() {
+	  this.setX(this.getBorderX());
+	  this.setY(this.getBorderY());
+	  this.setWidth(this.getBorderWidth());
+	  this.setHeight(this.getBorderHeight());
     }
 
   }

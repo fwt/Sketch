@@ -50,11 +50,6 @@ qx.Class.define("eyeos.sketch.UndoStack",
 		
 		var svgNode = tooldata.obj.getDomElement();
 	    var content = qx.xml.Element.serialize(svgNode);
-	    /*var par = tooldata.obj.getParent();
-	    var pos = par.indexOf(tooldata.obj);
-	    tooldata.obj.free();
-	    var content = JSON.stringify(tooldata.obj);
-	    par.addAt(tooldata.obj, pos);*/
 		this.__mainApp._sendMessage("new", content);
 	  }
 	  else if (action == "change") {

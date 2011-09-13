@@ -10,6 +10,7 @@
 
    Authors:
      * Marc Puts (marcputs)
+     * Florian Wohlfart
 
 ************************************************************************ */
 
@@ -124,8 +125,17 @@ qx.Class.define("svg.shape.Line",
     __applyX1: function(value, old) {
       if (null == value) {
         this.removeAttribute("x1");
+        this.setBorderX(null);
+        this.setBorderY(null);
+        this.setBorderWidth(null);
+        this.setBorderHeight(null);
       } else {
         this.setAttribute("x1", value);
+        if (value < this.getX2())
+		  this.setBorderX(value);
+        else
+		  this.setBorderX(this.getX2());
+	    this.setBorderWidth(Math.abs(this.getX2() - value));
       }
     },
   
@@ -133,8 +143,17 @@ qx.Class.define("svg.shape.Line",
     __applyY1: function(value, old) {
       if (null == value) {
         this.removeAttribute("y1");
+        this.setBorderX(null);
+        this.setBorderY(null);
+        this.setBorderWidth(null);
+        this.setBorderHeight(null);
       } else {
         this.setAttribute("y1", value);
+        if (value < this.getY2())
+          this.setBorderY(value);
+        else
+          this.setBorderY(this.getY2());
+	    this.setBorderHeight(Math.abs(this.getY2() - value));
       }
     },
   
@@ -142,8 +161,17 @@ qx.Class.define("svg.shape.Line",
     __applyX2: function(value, old) {
       if (null == value) {
         this.removeAttribute("x2");
+        this.setBorderX(null);
+        this.setBorderY(null);
+        this.setBorderWidth(null);
+        this.setBorderHeight(null);
       } else {
         this.setAttribute("x2", value);
+        if (value < this.getX1())
+          this.setBorderX(value);
+        else
+          this.setBorderX(this.getX1());
+	    this.setBorderWidth(Math.abs(this.getX1() - value));
       }
     },
   
@@ -151,9 +179,47 @@ qx.Class.define("svg.shape.Line",
     __applyY2: function(value, old) {
       if (null == value) {
         this.removeAttribute("y2");
+        this.setBorderX(null);
+        this.setBorderY(null);
+        this.setBorderWidth(null);
+        this.setBorderHeight(null);
       } else {
         this.setAttribute("y2", value);
+        if (value < this.getY1())
+          this.setBorderY(value);
+        else
+          this.setBorderY(this.getY1());
+	    this.setBorderHeight(Math.abs(this.getY1() - value));
       }
+    },
+    
+    //apply border changes
+    applyBorderChange: function() {
+	  // cache values
+	  var borderX = this.getBorderX();
+	  var borderY = this.getBorderY();
+	  var borderWidth = this.getBorderWidth();
+	  var borderHeight = this.getBorderHeight();
+	  
+	  // apply X
+	  if (this.getX1() < this.getX2()) {
+		this.setX1(borderX);
+		this.setX2(borderX + borderWidth);
+	  }
+	  else {
+		this.setX1(borderX + borderWidth);
+		this.setX2(borderX);
+	  }
+	  
+	  // apply Y
+	  if (this.getY1() < this.getY2()) {
+		this.setY1(borderY);
+		this.setY2(borderY + borderHeight);
+	  }
+	  else {
+		this.setY1(borderY + borderHeight);
+		this.setY2(borderY);
+	  }
     }
   
   }

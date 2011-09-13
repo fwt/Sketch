@@ -207,10 +207,12 @@ qx.Class.define('eyeos.application.Sketch', {
       this.__svg.setAttribute("width", this.__svgWidget.getWidth());
       this.__svg.setAttribute("height", this.__svgWidget.getHeight());
       
+      // listen for network messages
       var netSync = eyeos.netSync.NetSync.getInstance();
       netSync.subscribe("img_0");
       
       var bus = eyeos.messageBus.getInstance();
+      
       bus.addListener('eyeos_sketch_new', function (e)
       {
 		var data = JSON.parse(e.getData());

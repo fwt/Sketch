@@ -10,6 +10,7 @@
 
    Authors:
      * Marc Puts (marcputs)
+     * Florian Wohlfart
 
 ************************************************************************ */
 
@@ -166,8 +167,10 @@ qx.Class.define("svg.text.Text", {
     __applyX: function(value, old) {
       if (null == value) {
         this.removeAttribute("x");
+        this.setBorderX(null);
       } else {
         this.setAttribute("x", value);
+        this.setBorderX(value);
       }
     },
     
@@ -175,8 +178,10 @@ qx.Class.define("svg.text.Text", {
     __applyY: function(value, old) {
       if (null == value) {
         this.removeAttribute("y");
+        this.setBorderY(null);
       } else {
         this.setAttribute("y", value);
+        this.setBorderY(value);
       }
     },
     
@@ -223,6 +228,14 @@ qx.Class.define("svg.text.Text", {
       } else {
         this.setAttribute("rotate", value);
       }
+    },
+    
+    //apply border changes
+    applyBorderChange: function() {
+	  this.setX(this.getBorderX());
+	  this.setY(this.getBorderY());
+	  //this.setWidth(this.getBorderWidth());
+	  //this.setHeight(this.getBorderHeight());
     }
     
   }

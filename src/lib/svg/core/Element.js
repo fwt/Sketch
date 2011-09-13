@@ -11,6 +11,7 @@
    Authors:
      * Marc Puts (marcputs)
      * Martijn Evers (mevers)
+     * Florian Wohlfart
 
 ************************************************************************ */
 /*
@@ -56,6 +57,52 @@ qx.Class.define("svg.core.Element",
       apply: "_applyId",
       check: "String",
       event: "changeId"
+    },
+    
+    /**
+     * x-coord of the SVG element.
+     */
+    borderX : {
+      nullable: true,
+      init: null,
+      apply: "__applyBorderX",
+      check: "Number",
+      event: "changeX"
+    },
+    
+    /**
+     * y-coord of the SVG element.
+     */
+    borderY : {
+      nullable: true,
+      init: null,
+      apply: "__applyBorderY",
+      check: "Number",
+      event: "changeY"
+    },
+    
+    /**
+     * Width of the SVG element.
+     * A value of zero disables rendering of the element.
+     */
+    borderWidth : {
+      nullable: true,
+      init: null,
+      apply: "__applyBorderWidth",
+      check: "svg.core.Types.isLength(value)",
+      event: "changeWidth"
+    },
+    
+    /**
+     * Height of the SVG element.
+     * A value of zero disables rendering of the element.
+     */
+    borderHeight : {
+      nullable: true,
+      init: null,
+      apply: "__applyBorderHeight",
+      check: "svg.core.Types.isLength(value)",
+      event: "changeWidth"
     }
   },
 
@@ -70,6 +117,26 @@ qx.Class.define("svg.core.Element",
       } else {
         this.setAttribute("id", value);
       }
+    },
+    
+    //applies x
+    __applyBorderX: function(value, old) {
+      //this.applyBorderChange();
+    },
+  
+    //applies y
+    __applyBorderY: function(value, old) {
+      //this.applyBorderChange();
+    },
+  
+    //applies width
+    __applyBorderWidth: function(value, old) {
+      //this.applyBorderChange();
+    },
+  
+    //applies height
+    __applyBorderHeight: function(value, old) {
+      //this.applyBorderChange();
     },
 
     /**

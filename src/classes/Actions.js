@@ -195,59 +195,19 @@ qx.Class.define('eyeos.sketch.Actions', {
 	      return e.getDocumentTop() - offset.top;
 	    },
 	    
-	    // select an object on the canvas
+	    // select an object on the canvas for dragging
 		mouseDownOnObject: function(obj, e) {
 		  if (this.getApplication().__currentBrush != 'Select')
 		    return;
 		  
 		  var mouseX = this._getLeft(e);
 		  var mouseY = this._getTop(e);
-		  
-		  // path tool
-		  if (obj instanceof svg.path.Path) {
-			return;
-	        this.getApplication().__dragdata = {
-			  tool: "pen", obj: obj,
-			  x: 0,
-			  y: 0
-			};
-	      }
-		  
-		  // line tool
-		  else if (obj instanceof svg.shape.Line) {
-	        this.getApplication().__dragdata = {
-			  tool: "line", obj: obj,
-	          x: obj.getX1() - mouseX,
-	          y: obj.getY1() - mouseY
-	        };
-	      }
-		  
-		  // rectangle tool
-		  else if (obj instanceof svg.shape.Rect) {
-	        this.getApplication().__dragdata = {
-			  tool: "rect", obj: obj,
-			  x: obj.getX() - mouseX,
-			  y: obj.getY() - mouseY
-			};
-	      }
-		  
-		  // ellipse tool
-		  else if (obj instanceof svg.shape.Ellipse) {
-	        this.getApplication().__dragdata = {
-			  tool: "ellipse", obj: obj,
-			  x: obj.getCx() - mouseX,
-			  y: obj.getCy() - mouseY
-			};
-		  }
-		  
-		  // text tool
-		  else if (obj instanceof svg.text.Text) {
-	        this.getApplication().__dragdata = {
-			  tool: "text", obj: obj,
-			  x: obj.getX() - mouseX,
-			  y: obj.getY() - mouseY
-			};
-		  }
+			
+	      this.getApplication().__dragdata = {
+			obj: obj,
+			x: obj.getBorderX() - mouseX,
+			y: obj.getBorderY() - mouseY
+		  };
 	    },
 		
 		// create new object on the canvas
@@ -344,6 +304,7 @@ qx.Class.define('eyeos.sketch.Actions', {
 		  var mouseX = this._getLeft(e);
 		  var mouseY = this._getTop(e);
 		  
+		  // draw new shape
 	      if (tooldata != null) {
 			
 			// pen tool
@@ -360,7 +321,7 @@ qx.Class.define('eyeos.sketch.Actions', {
 		    else if (tooldata.tool == "rect") {
 			  var rect = tooldata.obj;
 			  if (mouseX > tooldata.startX) {
-				rect.setX(tooldata.startX);  
+				rect.setX(tooldata.startX);
 			    rect.setWidth(mouseX - tooldata.startX);
 			  } else {
 				rect.setX(mouseX);
@@ -388,47 +349,16 @@ qx.Class.define('eyeos.sketch.Actions', {
 			    ellipse.setRadiusY(mouseY - tooldata.startY);
 			  else
 			    ellipse.setRadiusY(tooldata.startY - mouseY);
-			  
-		    } 
+		    }
 	      }
 	      
+	      // drag object
 	      if (this.getApplication().__dragdata != null) {
 			var obj = this.getApplication().__dragdata.obj;
 			
-			switch (this.getApplication().__dragdata.tool) {
-			
-			// pen tool
-			case "pen":
-			  //obj.setX(mouseX + this.getApplication().__dragdata.x);
-			  //obj.setY(mouseY + this.getApplication().__dragdata.y);
-			  break;
-			
-			// line tool
-			case "line":
-			  var xspan = obj.getX2() - obj.getX1();
-			  var yspan = obj.getY2() - obj.getY1();
-			  obj.setStart(mouseX + this.getApplication().__dragdata.x, mouseY + this.getApplication().__dragdata.y);
-			  obj.setEnd(obj.getX1() + xspan, obj.getY1() + yspan);
-			  break;
-			
-			// rectangle tool
-			case "rect":
-			  obj.setX(mouseX + this.getApplication().__dragdata.x);
-			  obj.setY(mouseY + this.getApplication().__dragdata.y);
-			  break;
-		    
-		    // ellipse tool
-			case "ellipse":
-			  obj.setCx(mouseX + this.getApplication().__dragdata.x);
-			  obj.setCy(mouseY + this.getApplication().__dragdata.y);
-			  break;
-			
-			// text tool
-			case "text":
-			  obj.setX(mouseX + this.getApplication().__dragdata.x);
-			  obj.setY(mouseY + this.getApplication().__dragdata.y);
-			  break;
-			}
+			obj.setBorderX(mouseX + this.getApplication().__dragdata.x);
+			obj.setBorderY(mouseY + this.getApplication().__dragdata.y);
+			obj.applyBorderChange();
 		  }
 		},
 		

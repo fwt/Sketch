@@ -195,7 +195,7 @@ qx.Class.define('eyeos.sketch.Actions', {
 	      return e.getDocumentTop() - offset.top;
 	    },
 	    
-	    // select an object on the canvas for dragging
+	    // start dragging / select object
 		mouseDownOnObject: function(obj, e) {
 		  if (this.getApplication().__currentBrush != 'Select')
 		    return;
@@ -205,6 +205,8 @@ qx.Class.define('eyeos.sketch.Actions', {
 			
 	      this.getApplication().__dragdata = {
 			obj: obj,
+			initX: obj.getBorderX(),
+			initY: obj.getBorderY(),
 			x: obj.getBorderX() - mouseX,
 			y: obj.getBorderY() - mouseY
 		  };
@@ -378,8 +380,8 @@ qx.Class.define('eyeos.sketch.Actions', {
 	      
 	      // end dragging
 	      if (this.getApplication().__dragdata != null) {
-			this.getApplication().__undoStack.addChange("change",
-		      this.getApplication().__dragdata);
+			this.getApplication().__undoStack.addChange("move",
+			  this.getApplication().__dragdata);
 		    this.getApplication().__dragdata = null;
 	      }
 	    }

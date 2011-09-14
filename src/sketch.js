@@ -185,7 +185,24 @@ qx.Class.define('eyeos.application.Sketch', {
       this.__window.add(this._buildMenuBar(actions), {edge: "north"});
       
       // toolbar
-      this.__window.add(this._buildToolBar(actions), {edge: "north"});
+      var toolbar = this._buildToolBar(actions);
+      this.__window.add(toolbar, {edge: "north"});
+      var undoBtn = toolbar.getChildren()[1].getChildren()[1];
+      var redoBtn = toolbar.getChildren()[1].getChildren()[2];
+      
+      // Undo / Redo buttons
+      /*var undoMenu = new qx.ui.menu.Menu();
+      undoMenu.addSeparator();
+      var undoCommand = new qx.ui.core.Command("Control+Z");
+      
+      var undoButton = new qx.ui.toolbar.SplitButton("Undo", "index.php?extern=images/22x22/actions/edit-undo.png", undoMenu);
+      undoButton.getChildControl("button").setIconPosition("top");
+      
+      var redoButton = new qx.ui.toolbar.SplitButton("Redo", "index.php?extern=images/22x22/actions/edit-redo.png");
+      redoButton.getChildControl("button").setIconPosition("top");
+      toolbar.addSeparator();
+      toolbar.add(undoButton);
+      toolbar.add(redoButton);*/
       
       // brush & color selection panel
       this.__window.add(this._buildLeftBar(actions), {edge: "west"});
@@ -200,7 +217,9 @@ qx.Class.define('eyeos.application.Sketch', {
       this.__svgWidget.addListener("mouseup", actions.mouseUp, actions);
       
       // Undo stack
-      this.__undoStack = new eyeos.sketch.UndoStack(this);
+      this.__undoStack = new eyeos.sketch.UndoStack(this, undoBtn, redoBtn);
+      //undoButton.addListener("execute", this.__undoStack.undo);
+      //redoButton.addListener("execute", this.__undoStack.redo);
       
       this.__window.open();
       
@@ -240,6 +259,19 @@ qx.Class.define('eyeos.application.Sketch', {
 	    }
       }, this);
       
+      bus.addListener("eyeos_sketch_move", function (e)
+      {
+		var data = JSON.parse(e.getData());
+		if (data[0] != eyeos.getCurrentUserName()) {
+		  var content = JSON.parse(data[1]);
+		  var obj = eyeos.sketch.ImportExport.getObjectById(this.__svg, content.id);
+		  obj.setBorderX(content.x);
+		  obj.setBorderY(content.y);
+		  //alert(obj.getBorderWidth() + " " + obj.getBorderHeight());
+		  obj.applyBorderChange();
+	    }
+      }, this);
+      
       bus.addListener('eyeos_sketch_change', function (e)
       {
 		var data = JSON.parse(e.getData());
@@ -262,6 +294,7 @@ qx.Class.define('eyeos.application.Sketch', {
 		  }
 	    }
       }, this);
+      
     }
   }
 });

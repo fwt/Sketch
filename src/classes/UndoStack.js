@@ -21,13 +21,13 @@ qx.Class.define("eyeos.sketch.UndoStack",
 {
   extend : qx.core.Object,
    
-  construct : function(mainApp)
+  construct : function(mainApp, undoButton, redoButton)
   {
     this.__stack = new Array();
     this.__stackPointer = 0;
     this.__mainApp = mainApp;
-    //this.__undoButton = undoButton;
-    //this.__redoButton = redoButton;
+    this.__undoButton = undoButton;
+    this.__redoButton = redoButton;
   },
 
   members :
@@ -52,6 +52,19 @@ qx.Class.define("eyeos.sketch.UndoStack",
 	    var content = qx.xml.Element.serialize(svgNode);
 		this.__mainApp._sendMessage("new", content);
 	  }
+	  else if (action == "move") {
+		this.__stack.push({ action: "move", obj: tooldata.obj,
+		  initX: tooldata.initX, initY: tooldata.initY,
+		  endX: tooldata.obj.getBorderX(), endY: tooldata.obj.getBorderY() });
+		
+		var nodeID = tooldata.obj.getAttribute("id");
+		var content = JSON.stringify({
+		  id: nodeID,
+		  x: tooldata.obj.getBorderX(),
+		  y: tooldata.obj.getBorderY()
+		});
+		this.__mainApp._sendMessage("move", content);
+	  }
 	  else if (action == "change") {
 		this.__stack.push({ action: "change", obj: tooldata.obj });
 		
@@ -60,8 +73,8 @@ qx.Class.define("eyeos.sketch.UndoStack",
 		this.__mainApp._sendMessage("change", content);
 	  }
 	  this.__stackPointer++;
-	  //this.__undoButton.setEnabled(true);
-	  //this.__redoButton.setEnabled(false);
+	  this.__undoButton.setEnabled(true);
+	  this.__redoButton.setEnabled(false);
     },
 	
 	undo: function() {
@@ -75,14 +88,27 @@ qx.Class.define("eyeos.sketch.UndoStack",
 		  var nodeID = undoItem.obj.getAttribute("id");
 		  this.__mainApp._sendMessage("delete", nodeID);
 	    }
-	    //else if (undoItem.action == "change") {
-		//  var nodeID = undoItem.obj.getAttribute("id");
-		//  this.__mainApp._sendMessage("delete", nodeID);
-	    //}
+	    else if (undoItem.action == "move") {
+		  undoItem.obj.setBorderX(undoItem.initX);
+		  undoItem.obj.setBorderY(undoItem.initY);
+		  undoItem.obj.applyBorderChange();
+		  
+		  var nodeID = undoItem.obj.getAttribute("id");
+		  var content = JSON.stringify({
+			id: nodeID,
+		    x: undoItem.initX,
+		    y: undoItem.initY
+		  });
+		  this.__mainApp._sendMessage("move", content);
+	    }
+	    else if (undoItem.action == "change") {
+		  var nodeID = undoItem.obj.getAttribute("id");
+		  this.__mainApp._sendMessage("delete", nodeID);
+	    }
 	    
-	    //if (this.__stackPointer == 0)
-	    //  this.__undoButton.setEnabled(false);
-	    //this.__redoButton.setEnabled(true);
+	    if (this.__stackPointer == 0)
+	      this.__undoButton.setEnabled(false);
+	    this.__redoButton.setEnabled(true);
 	  }
     },
     
@@ -97,11 +123,24 @@ qx.Class.define("eyeos.sketch.UndoStack",
 	      var content = qx.xml.Element.serialize(svgNode);
 		  this.__mainApp._sendMessage("new", content);
 	    }
+	    else if (undoItem.action == "move") {
+		  undoItem.obj.setBorderX(undoItem.endX);
+		  undoItem.obj.setBorderY(undoItem.endY);
+		  undoItem.obj.applyBorderChange();
+		  
+		  var nodeID = undoItem.obj.getAttribute("id");
+		  var content = JSON.stringify({
+			id: nodeID,
+		    x: undoItem.endX,
+		    y: undoItem.endY
+		  });
+		  this.__mainApp._sendMessage("move", content);
+	    }
 		
 		this.__stackPointer++;
-		//this.__undoButton.setEnabled(true);
-		//if (this.__stackPointer == this.__stack.length)
-		//  this.__redoButton.setEnabled(false);
+		this.__undoButton.setEnabled(true);
+		if (this.__stackPointer == this.__stack.length)
+		  this.__redoButton.setEnabled(false);
 	  }
     },
     

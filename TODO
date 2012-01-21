@@ -3,10 +3,9 @@
    TODO
 ----------------
 
- - create generic SVG object to access common properties
- - apply undo/redo on object moving
- - start collaboration only when the same document is loaded (unique ID for each document)
  - improve SVG import
+ - create generic SVG object to access common properties
+ - start collaboration only when the same document is loaded (unique ID for each document)
  - undo/redo for actions of other collaborative users
  - selecting and deleting objects
  - rotating and resizing objects

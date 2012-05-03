@@ -15,3 +15,19 @@
  - show other collaborative users online
  - add library with predefined objects
 
+
+
+
+
+Next Steps:
+
+- rewrite DOM2Obj function
+  a) set properties by hand
+  b) semi-automatical object reading and writing
+- document ID
+- element ID
+- NEW message -> objectID, parentID, ParentPos, SVG code (incl. objectID)
+- CHANGE message -> objectID, deltaX, deltaY, deltaWidth, deltaHeight
+- DELETE message -> objectID
+- Undo stack UNDO REDO (-> action, tool, obj)
+- XML to Objects (Gedanken machen, Reihenfolge)
